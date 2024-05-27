@@ -70,6 +70,13 @@ class ChatInteraction:
                 type = False
             except:
                 pass
+            
+            # 达到限额
+            try:
+                self.find_element("limit.png")
+                return 3
+            except:
+                pass
 
             # 检查是否已经过了超时时间
             if time.time() - start_time > timeout:
@@ -153,7 +160,10 @@ class ChatInteraction:
             self.click_element("error.png")
         while True:
             type = self.wait_for_response()
-            if type == 2:
+            if type == 3:
+                print("response limit")
+                raise StopIteration("response limit")
+            elif type == 2:
                 print("message too long, skip this one")
                 raise LookupError("message too long, skip this one")
             elif type == 1:

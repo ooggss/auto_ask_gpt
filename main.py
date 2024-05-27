@@ -63,6 +63,11 @@ def process(screenshots_path, projects_path, project, multi_conversation=False):
                             output_file.write("------\n")
                             output_file.write(question[start:end])
                     break
+                
+                except StopIteration as e:
+                    logging.error(f"获取{lang_pair}的{question_path}的回答时达到限额：{e}")
+                    print(f"获取{lang_pair}的{question_path}的回答时发生达到限额：{e}\n请稍后重启")
+                    sys.exit()
 
                 except TimeoutError as e:
                     logging.error(f"获取{lang_pair}的{question_path}的回答时发生超时错误：{e}")
